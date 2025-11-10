@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quest</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <a href="/index.html"><button id="menu-button">← Menu</button></a>
+
+<div id="hud" >
+  <div id="score">Pontos: 0</div>
+  <div id="wave">Wave: 1</div>
+</div>
+
+
+    <canvas id="gameCanvas" width="800" height="550"></canvas>
+    
+    <div id="pergunta-container">
+        <p id="pergunta"></p>
+        <input type="number" id="resposta-input" placeholder="Resposta">
+        <button id="submit-resposta">Enviar</button>
+        <button id="help-button">?</button>
+        <p id="help-info"></p>
+        <p id="help-hint"></p>
+    </div>
+    
+    <div id="game-over-container">
+        <h2>Game Over!</h2>
+        <p>Sua pontuação: <span id="final-score">0</span></p>
+        <button id="restart-button">Reiniciar</button>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
