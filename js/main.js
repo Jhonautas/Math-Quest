@@ -507,15 +507,15 @@ const QuestionSystem = {
 const heartFullImg = new Image();
 const heartHalfImg = new Image();
 const heartEmptyImg = new Image();
-heartFullImg.src = '../img/coracao.png';
-heartHalfImg.src = '../img/corameio.png';
-heartEmptyImg.src = '../img/corazio.png';
+heartFullImg.src = './img/coracao.png';
+heartHalfImg.src = './img/corameio.png';
+heartEmptyImg.src = './img/corazio.png';
 
 // ===========BOSS=============
 const enemyImg = new Image();
 const bossImg = new Image();
-enemyImg.src = '../img/inimigo.png';
-bossImg.src = '../img/boss.png';
+enemyImg.src = './img/inimigo.png';
+bossImg.src = './img/boss.png';
 
 // ===========================
 // SISTEMA DE RENDERIZAÇÃO
