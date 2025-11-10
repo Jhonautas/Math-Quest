@@ -533,6 +533,26 @@ respostaInput.addEventListener('keydown', (event) => {
 helpButton.addEventListener('click', handleHelp);
 restartButton.addEventListener('click', restartGame);
 
+// ===========================
+// SISTEMA DE SOM
+// ===========================
+const SoundSystem = {
+    bgMusic: null,
+
+    init() {
+        this.bgMusic = new Audio('./audio/soundtrack.mp3'); // caminho do seu arquivo
+        this.bgMusic.loop = true;  // repete indefinidamente
+        this.bgMusic.volume = 0.4; // volume (0 a 1)
+    },
+
+    play() {
+        if (this.bgMusic) {
+            this.bgMusic.play().catch(err => {
+                console.warn('Autoplay bloqueado pelo navegador:', err);
+            });
+        }
+    }
+};
 // ============================================
 // INICIALIZAÇÃO
 // ============================================
