@@ -10,7 +10,7 @@
             size: 25,
             speed: 3,
             initialHealth: 3,
-            color: 'blue'
+            color: 'yellow'
         },
         enemy: {
             baseSize: 15,
@@ -71,14 +71,15 @@
     // ===========================
     const gameState = {
         player: {
-            x: 400,
-            y: 300,
-            size: CONFIG.player.size,
-            speed: CONFIG.player.speed,
-            color: CONFIG.player.color,
-            health: CONFIG.player.initialHealth,
-            score: 0
-        },
+    x: 400,
+    y: 300,
+    size: CONFIG.player.size,
+    speed: CONFIG.player.speed,
+    color: CONFIG.player.color,
+    health: CONFIG.player.initialHealth,
+    score: 0,
+    angle: 0   // <<--- ADICIONE ESTA LINHA
+},
         enemies: [],
         projectiles: [],
         wave: 1,
@@ -191,23 +192,29 @@
         },
 
         setupKeyboard() {
-            document.addEventListener('keydown', (e) => {
-                const key = e.key.toLowerCase();
-                if (['w', 'a', 's', 'd'].includes(key)) {
-                    if (gameState.player.health > 0) {
-                        gameState.keys[key] = true;
-                        e.preventDefault();
-                    }
-                }
-            });
+    document.addEventListener("keydown", (e) => {
+        const key = e.key.toLowerCase();
 
-            document.addEventListener('keyup', (e) => {
-                const key = e.key.toLowerCase();
-                if (['w', 'a', 's', 'd'].includes(key)) {
-                    gameState.keys[key] = false;
+        // Apenas WASD
+        if (["w", "a", "s", "d"].includes(key)) {
+            if (gameState.player.health > 0) {
+                // Evita repetição quando tecla fica segurada
+                if (!gameState.keys[key]) {
+                    gameState.keys[key] = true;
                 }
-            });
-        },
+                e.preventDefault();
+            }
+        }
+    });
+
+    document.addEventListener("keyup", (e) => {
+        const key = e.key.toLowerCase();
+
+        if (["w", "a", "s", "d"].includes(key)) {
+            gameState.keys[key] = false;
+        }
+    });
+},
 
         setupMouse() {
             DOM.canvas.addEventListener('mousemove', (e) => {
@@ -286,7 +293,9 @@
                 vx *= inv;
                 vy *= inv;
             }
-
+if (vx !== 0 || vy !== 0) {
+    gameState.player.angle = Math.atan2(vy, vx);
+}
             gameState.player.x += vx;
             gameState.player.y += vy;
 
@@ -531,24 +540,34 @@
         },
 
         drawPlayer() {
-            const player = gameState.player;
-            ctx.fillStyle = player.color;
-            ctx.beginPath();
-            ctx.arc(
-                player.x + player.size / 2,
-                player.y + player.size / 2,
-                player.size / 2,
-                0,
-                Math.PI * 2
-            );
-            ctx.fill();
-        },
+    const p = gameState.player;
+    const x = p.x + p.size / 2;
+    const y = p.y + p.size / 2;
+    const r = p.size / 2;
+
+    ctx.save();          
+    ctx.translate(x, y); 
+    ctx.rotate(p.angle); 
+
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+
+    // Triângulo apontando para a direita
+    ctx.moveTo(r, 0);      
+    ctx.lineTo(-r, -r);    
+    ctx.lineTo(-r, r);     
+
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.restore();
+},
 
         drawAimLine() {
             if (gameState.isPaused || gameState.player.health <= 0) return;
             const player = gameState.player;
             const mouse = gameState.mouse;
-            ctx.strokeStyle = 'rgba(0, 0, 255, 0.3)';
+            ctx.strokeStyle = 'yellow';
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(player.x + player.size / 2, player.y + player.size / 2);
